@@ -34,24 +34,27 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBoxLogin = new System.Windows.Forms.TextBox();
             this.textBoxPassword = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.labelLogin = new System.Windows.Forms.Label();
+            this.labelPassword = new System.Windows.Forms.Label();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.buttonRegister = new System.Windows.Forms.Button();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
-            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.actionBox = new System.Windows.Forms.RichTextBox();
+            this.walletBox = new System.Windows.Forms.RichTextBox();
+            this.chatBox = new System.Windows.Forms.RichTextBox();
             this.buttonMove = new System.Windows.Forms.Button();
-            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
+            this.positionBox = new System.Windows.Forms.RichTextBox();
             this.buttonBuy = new System.Windows.Forms.Button();
             this.buttonSell = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.labelChat = new System.Windows.Forms.Label();
+            this.labelWallet = new System.Windows.Forms.Label();
+            this.labelLog = new System.Windows.Forms.Label();
+            this.labelPositions = new System.Windows.Forms.Label();
             this.buttonEnd = new System.Windows.Forms.Button();
             this.buttonResign = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.sellBox = new System.Windows.Forms.TextBox();
+            this.textBoxRoom = new System.Windows.Forms.TextBox();
+            this.buttonJoin = new System.Windows.Forms.Button();
+            this.labelRoom = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -62,7 +65,6 @@
             this.label1.Size = new System.Drawing.Size(56, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "username:";
-            this.label1.Visible = false;
             // 
             // label2
             // 
@@ -72,7 +74,6 @@
             this.label2.Size = new System.Drawing.Size(59, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "roomname:";
-            this.label2.Visible = false;
             // 
             // textBox1
             // 
@@ -106,23 +107,23 @@
             this.textBoxPassword.Size = new System.Drawing.Size(383, 20);
             this.textBoxPassword.TabIndex = 5;
             // 
-            // label3
+            // labelLogin
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(309, 273);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "username:";
+            this.labelLogin.AutoSize = true;
+            this.labelLogin.Location = new System.Drawing.Point(309, 273);
+            this.labelLogin.Name = "labelLogin";
+            this.labelLogin.Size = new System.Drawing.Size(56, 13);
+            this.labelLogin.TabIndex = 6;
+            this.labelLogin.Text = "username:";
             // 
-            // label4
+            // labelPassword
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(309, 299);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 13);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "password";
+            this.labelPassword.AutoSize = true;
+            this.labelPassword.Location = new System.Drawing.Point(309, 299);
+            this.labelPassword.Name = "labelPassword";
+            this.labelPassword.Size = new System.Drawing.Size(52, 13);
+            this.labelPassword.TabIndex = 7;
+            this.labelPassword.Text = "password";
             // 
             // buttonLogin
             // 
@@ -132,6 +133,7 @@
             this.buttonLogin.TabIndex = 8;
             this.buttonLogin.Text = "Log In";
             this.buttonLogin.UseVisualStyleBackColor = true;
+            this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             // 
             // buttonRegister
             // 
@@ -141,36 +143,37 @@
             this.buttonRegister.TabIndex = 9;
             this.buttonRegister.Text = "Register";
             this.buttonRegister.UseVisualStyleBackColor = true;
+            this.buttonRegister.Click += new System.EventHandler(this.buttonRegister_Click);
             // 
-            // richTextBox1
+            // actionBox
             // 
-            this.richTextBox1.Enabled = false;
-            this.richTextBox1.Location = new System.Drawing.Point(1080, 212);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(488, 321);
-            this.richTextBox1.TabIndex = 10;
-            this.richTextBox1.Text = "";
-            this.richTextBox1.Visible = false;
+            this.actionBox.Enabled = false;
+            this.actionBox.Location = new System.Drawing.Point(1080, 212);
+            this.actionBox.Name = "actionBox";
+            this.actionBox.Size = new System.Drawing.Size(488, 321);
+            this.actionBox.TabIndex = 10;
+            this.actionBox.Text = "";
+            this.actionBox.Visible = false;
             // 
-            // richTextBox2
+            // walletBox
             // 
-            this.richTextBox2.Enabled = false;
-            this.richTextBox2.Location = new System.Drawing.Point(1080, 92);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(488, 103);
-            this.richTextBox2.TabIndex = 11;
-            this.richTextBox2.Text = "";
-            this.richTextBox2.Visible = false;
+            this.walletBox.Enabled = false;
+            this.walletBox.Location = new System.Drawing.Point(1080, 92);
+            this.walletBox.Name = "walletBox";
+            this.walletBox.Size = new System.Drawing.Size(488, 103);
+            this.walletBox.TabIndex = 11;
+            this.walletBox.Text = "";
+            this.walletBox.Visible = false;
             // 
-            // richTextBox3
+            // chatBox
             // 
-            this.richTextBox3.Enabled = false;
-            this.richTextBox3.Location = new System.Drawing.Point(785, 273);
-            this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(289, 170);
-            this.richTextBox3.TabIndex = 12;
-            this.richTextBox3.Text = "";
-            this.richTextBox3.Visible = false;
+            this.chatBox.Enabled = false;
+            this.chatBox.Location = new System.Drawing.Point(785, 273);
+            this.chatBox.Name = "chatBox";
+            this.chatBox.Size = new System.Drawing.Size(289, 170);
+            this.chatBox.TabIndex = 12;
+            this.chatBox.Text = "";
+            this.chatBox.Visible = false;
             // 
             // buttonMove
             // 
@@ -182,16 +185,17 @@
             this.buttonMove.Text = "Move";
             this.buttonMove.UseVisualStyleBackColor = true;
             this.buttonMove.Visible = false;
+            this.buttonMove.Click += new System.EventHandler(this.buttonMove_Click);
             // 
-            // richTextBox4
+            // positionBox
             // 
-            this.richTextBox4.Enabled = false;
-            this.richTextBox4.Location = new System.Drawing.Point(1574, 270);
-            this.richTextBox4.Name = "richTextBox4";
-            this.richTextBox4.Size = new System.Drawing.Size(289, 170);
-            this.richTextBox4.TabIndex = 14;
-            this.richTextBox4.Text = "";
-            this.richTextBox4.Visible = false;
+            this.positionBox.Enabled = false;
+            this.positionBox.Location = new System.Drawing.Point(1574, 270);
+            this.positionBox.Name = "positionBox";
+            this.positionBox.Size = new System.Drawing.Size(289, 170);
+            this.positionBox.TabIndex = 14;
+            this.positionBox.Text = "";
+            this.positionBox.Visible = false;
             // 
             // buttonBuy
             // 
@@ -203,6 +207,7 @@
             this.buttonBuy.Text = "Buy";
             this.buttonBuy.UseVisualStyleBackColor = true;
             this.buttonBuy.Visible = false;
+            this.buttonBuy.Click += new System.EventHandler(this.buttonBuy_Click);
             // 
             // buttonSell
             // 
@@ -215,49 +220,49 @@
             this.buttonSell.UseVisualStyleBackColor = true;
             this.buttonSell.Visible = false;
             // 
-            // label5
+            // labelChat
             // 
-            this.label5.AutoSize = true;
-            this.label5.Enabled = false;
-            this.label5.Location = new System.Drawing.Point(782, 257);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(31, 13);
-            this.label5.TabIndex = 17;
-            this.label5.Text = "chat:";
-            this.label5.Visible = false;
+            this.labelChat.AutoSize = true;
+            this.labelChat.Enabled = false;
+            this.labelChat.Location = new System.Drawing.Point(782, 257);
+            this.labelChat.Name = "labelChat";
+            this.labelChat.Size = new System.Drawing.Size(31, 13);
+            this.labelChat.TabIndex = 17;
+            this.labelChat.Text = "chat:";
+            this.labelChat.Visible = false;
             // 
-            // label6
+            // labelWallet
             // 
-            this.label6.AutoSize = true;
-            this.label6.Enabled = false;
-            this.label6.Location = new System.Drawing.Point(1077, 76);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(42, 13);
-            this.label6.TabIndex = 18;
-            this.label6.Text = "wallets:";
-            this.label6.Visible = false;
+            this.labelWallet.AutoSize = true;
+            this.labelWallet.Enabled = false;
+            this.labelWallet.Location = new System.Drawing.Point(1077, 76);
+            this.labelWallet.Name = "labelWallet";
+            this.labelWallet.Size = new System.Drawing.Size(42, 13);
+            this.labelWallet.TabIndex = 18;
+            this.labelWallet.Text = "wallets:";
+            this.labelWallet.Visible = false;
             // 
-            // label7
+            // labelLog
             // 
-            this.label7.AutoSize = true;
-            this.label7.Enabled = false;
-            this.label7.Location = new System.Drawing.Point(1077, 198);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(57, 13);
-            this.label7.TabIndex = 19;
-            this.label7.Text = "actionLog:";
-            this.label7.Visible = false;
+            this.labelLog.AutoSize = true;
+            this.labelLog.Enabled = false;
+            this.labelLog.Location = new System.Drawing.Point(1077, 198);
+            this.labelLog.Name = "labelLog";
+            this.labelLog.Size = new System.Drawing.Size(57, 13);
+            this.labelLog.TabIndex = 19;
+            this.labelLog.Text = "actionLog:";
+            this.labelLog.Visible = false;
             // 
-            // label8
+            // labelPositions
             // 
-            this.label8.AutoSize = true;
-            this.label8.Enabled = false;
-            this.label8.Location = new System.Drawing.Point(1571, 254);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(51, 13);
-            this.label8.TabIndex = 20;
-            this.label8.Text = "positions:";
-            this.label8.Visible = false;
+            this.labelPositions.AutoSize = true;
+            this.labelPositions.Enabled = false;
+            this.labelPositions.Location = new System.Drawing.Point(1571, 254);
+            this.labelPositions.Name = "labelPositions";
+            this.labelPositions.Size = new System.Drawing.Size(51, 13);
+            this.labelPositions.TabIndex = 20;
+            this.labelPositions.Text = "positions:";
+            this.labelPositions.Visible = false;
             // 
             // buttonEnd
             // 
@@ -269,6 +274,7 @@
             this.buttonEnd.Text = "End Turn";
             this.buttonEnd.UseVisualStyleBackColor = true;
             this.buttonEnd.Visible = false;
+            this.buttonEnd.Click += new System.EventHandler(this.buttonEnd_Click);
             // 
             // buttonResign
             // 
@@ -281,38 +287,70 @@
             this.buttonResign.UseVisualStyleBackColor = true;
             this.buttonResign.Visible = false;
             // 
-            // textBox3
+            // sellBox
             // 
-            this.textBox3.Enabled = false;
-            this.textBox3.Location = new System.Drawing.Point(1463, 541);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 23;
-            this.textBox3.Visible = false;
+            this.sellBox.Enabled = false;
+            this.sellBox.Location = new System.Drawing.Point(1463, 541);
+            this.sellBox.Name = "sellBox";
+            this.sellBox.Size = new System.Drawing.Size(100, 20);
+            this.sellBox.TabIndex = 23;
+            this.sellBox.Visible = false;
+            // 
+            // textBoxRoom
+            // 
+            this.textBoxRoom.Location = new System.Drawing.Point(371, 270);
+            this.textBoxRoom.Name = "textBoxRoom";
+            this.textBoxRoom.Size = new System.Drawing.Size(383, 20);
+            this.textBoxRoom.TabIndex = 24;
+            this.textBoxRoom.Visible = false;
+            // 
+            // buttonJoin
+            // 
+            this.buttonJoin.Location = new System.Drawing.Point(506, 296);
+            this.buttonJoin.Name = "buttonJoin";
+            this.buttonJoin.Size = new System.Drawing.Size(75, 23);
+            this.buttonJoin.TabIndex = 25;
+            this.buttonJoin.Text = "Join";
+            this.buttonJoin.UseVisualStyleBackColor = true;
+            this.buttonJoin.Visible = false;
+            this.buttonJoin.Click += new System.EventHandler(this.buttonJoin_Click);
+            // 
+            // labelRoom
+            // 
+            this.labelRoom.AutoSize = true;
+            this.labelRoom.Location = new System.Drawing.Point(516, 254);
+            this.labelRoom.Name = "labelRoom";
+            this.labelRoom.Size = new System.Drawing.Size(56, 13);
+            this.labelRoom.TabIndex = 26;
+            this.labelRoom.Text = "username:";
+            this.labelRoom.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1905, 714);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.labelRoom);
+            this.Controls.Add(this.buttonJoin);
+            this.Controls.Add(this.textBoxRoom);
+            this.Controls.Add(this.sellBox);
             this.Controls.Add(this.buttonResign);
             this.Controls.Add(this.buttonEnd);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.labelPositions);
+            this.Controls.Add(this.labelLog);
+            this.Controls.Add(this.labelWallet);
+            this.Controls.Add(this.labelChat);
             this.Controls.Add(this.buttonSell);
             this.Controls.Add(this.buttonBuy);
-            this.Controls.Add(this.richTextBox4);
+            this.Controls.Add(this.positionBox);
             this.Controls.Add(this.buttonMove);
-            this.Controls.Add(this.richTextBox3);
-            this.Controls.Add(this.richTextBox2);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.chatBox);
+            this.Controls.Add(this.walletBox);
+            this.Controls.Add(this.actionBox);
             this.Controls.Add(this.buttonRegister);
             this.Controls.Add(this.buttonLogin);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.labelPassword);
+            this.Controls.Add(this.labelLogin);
             this.Controls.Add(this.textBoxPassword);
             this.Controls.Add(this.textBoxLogin);
             this.Controls.Add(this.textBox2);
@@ -334,24 +372,27 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBoxLogin;
         private System.Windows.Forms.TextBox textBoxPassword;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelLogin;
+        private System.Windows.Forms.Label labelPassword;
         private System.Windows.Forms.Button buttonLogin;
         private System.Windows.Forms.Button buttonRegister;
-        private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.RichTextBox richTextBox2;
-        private System.Windows.Forms.RichTextBox richTextBox3;
+        private System.Windows.Forms.RichTextBox actionBox;
+        private System.Windows.Forms.RichTextBox walletBox;
+        private System.Windows.Forms.RichTextBox chatBox;
         private System.Windows.Forms.Button buttonMove;
-        private System.Windows.Forms.RichTextBox richTextBox4;
+        private System.Windows.Forms.RichTextBox positionBox;
         private System.Windows.Forms.Button buttonBuy;
         private System.Windows.Forms.Button buttonSell;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label labelChat;
+        private System.Windows.Forms.Label labelWallet;
+        private System.Windows.Forms.Label labelLog;
+        private System.Windows.Forms.Label labelPositions;
         private System.Windows.Forms.Button buttonEnd;
         private System.Windows.Forms.Button buttonResign;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox sellBox;
+        private System.Windows.Forms.TextBox textBoxRoom;
+        private System.Windows.Forms.Button buttonJoin;
+        private System.Windows.Forms.Label labelRoom;
     }
 }
 

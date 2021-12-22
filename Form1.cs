@@ -39,7 +39,7 @@ namespace MonopolyTempGUI
             {
                 this.Invoke((Action)(() =>
                 {
-                    var newMessage = $"{user}: {message}";
+                    var newMessage = $"{user}: {message}\n";
                     //DisplayMessage(newMessage);
                     chatBox.AppendText(newMessage);
                 }));
@@ -56,9 +56,11 @@ namespace MonopolyTempGUI
                         gameboard.setRoomname(roomname);
 
                         labelRoom.Visible = textBoxRoom.Visible = buttonJoin.Visible = false;
-                        chatBox.Visible = actionBox.Visible = walletBox.Visible = positionBox.Visible = sellBox.Visible = true;
+                        textBox2.Visible = textBoxMessage.Visible = chatBox.Visible = actionBox.Visible = walletBox.Visible = positionBox.Visible = sellBox.Visible = true;
                         labelChat.Visible = labelLog.Visible = labelWallet.Visible = labelPositions.Visible = true;
-                        buttonMove.Visible = buttonEnd.Visible = buttonSell.Visible = buttonBuy.Visible = true;
+                        buttonSend.Visible = buttonMove.Visible = buttonEnd.Visible = buttonSell.Visible = buttonBuy.Visible = true;
+
+                        textBox2.Text = roomname;
 
                         if (gameboard.getActivePlayer().Equals(user))
                         {
@@ -495,6 +497,13 @@ namespace MonopolyTempGUI
         private async void buttonEnd_Click(object sender, EventArgs e)
         {
             await connection.InvokeAsync("SendEndTurn", gameboard.getRoomname(), gameboard.getUsername());
+            buttonBuy.Enabled = buttonEnd.Enabled = false;
+        }
+
+        private async void buttonSend_Click(object sender, EventArgs e)
+        {
+            await connection.InvokeAsync("SendMessage", gameboard.getRoomname(), gameboard.getUsername(), textBoxMessage.Text);
+            textBoxMessage.Clear();
         }
     }
 }

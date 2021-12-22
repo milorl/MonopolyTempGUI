@@ -55,6 +55,8 @@
             this.textBoxRoom = new System.Windows.Forms.TextBox();
             this.buttonJoin = new System.Windows.Forms.Button();
             this.labelRoom = new System.Windows.Forms.Label();
+            this.buttonSend = new System.Windows.Forms.Button();
+            this.textBoxMessage = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -325,11 +327,32 @@
             this.labelRoom.Text = "username:";
             this.labelRoom.Visible = false;
             // 
+            // buttonSend
+            // 
+            this.buttonSend.Location = new System.Drawing.Point(894, 475);
+            this.buttonSend.Name = "buttonSend";
+            this.buttonSend.Size = new System.Drawing.Size(75, 23);
+            this.buttonSend.TabIndex = 27;
+            this.buttonSend.Text = "Send";
+            this.buttonSend.UseVisualStyleBackColor = true;
+            this.buttonSend.Visible = false;
+            this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
+            // 
+            // textBoxMessage
+            // 
+            this.textBoxMessage.Location = new System.Drawing.Point(785, 449);
+            this.textBoxMessage.Name = "textBoxMessage";
+            this.textBoxMessage.Size = new System.Drawing.Size(289, 20);
+            this.textBoxMessage.TabIndex = 28;
+            this.textBoxMessage.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1905, 714);
+            this.Controls.Add(this.textBoxMessage);
+            this.Controls.Add(this.buttonSend);
             this.Controls.Add(this.labelRoom);
             this.Controls.Add(this.buttonJoin);
             this.Controls.Add(this.textBoxRoom);
@@ -393,6 +416,8 @@
         private System.Windows.Forms.TextBox textBoxRoom;
         private System.Windows.Forms.Button buttonJoin;
         private System.Windows.Forms.Label labelRoom;
+        private System.Windows.Forms.Button buttonSend;
+        private System.Windows.Forms.TextBox textBoxMessage;
     }
 }
 

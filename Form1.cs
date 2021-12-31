@@ -45,14 +45,14 @@ namespace MonopolyTempGUI
                 }));
             });
 
-            connection.On<string, string, string>("ReceiveRoomInfo", (roomname, user, message) =>
+            connection.On<string, string, int, string>("ReceiveRoomInfo", (roomname, user, playerid, message) =>
             {
                 this.Invoke((Action)(() =>
                 {
                     if (message.Equals("join"))
                     {
-                        Player newPlayer = new Player(user, gameboard.startingBalance());
-                        gameboard.joinPlayer(newPlayer);
+                        Player newPlayer = new Player(user, gameboard.startingBalance(), 1);
+                        gameboard.joinPlayer(newPlayer, playerid);
                         gameboard.setRoomname(roomname);
 
                         labelRoom.Visible = textBoxRoom.Visible = buttonJoin.Visible = false;
@@ -62,8 +62,9 @@ namespace MonopolyTempGUI
 
                         textBox2.Text = roomname;
 
-                        if (gameboard.getActivePlayer().Equals(user))
+                        if (playerid == 0)
                         {
+                            gameboard.setActivePlayer(user);
                             buttonMove.Enabled = true;
                         }
                     }
@@ -74,19 +75,43 @@ namespace MonopolyTempGUI
                 }));
             });
 
+            connection.On<List<string>>("ReceiveRoomMembers", (userlist) =>
+            {
+                this.Invoke((Action)(() =>
+                {
+                    Player p = new Player();
+                    for(int i = 0; i<userlist.Count; i++)
+                    {
+                        p = new Player(userlist[i], gameboard.startingBalance(), 1);
+                        gameboard.joinPlayer(p, i);
+                    }
+                    int j = 0;
+                    positionBox.Clear();
+                    foreach (Player x in gameboard.getPlayers())
+                    {
+                        positionBox.AppendText("Player" + j + ": " + x.getUsername() + "\n");
+                        j++;
+                    }
+                }));
+            });
+
             connection.On<string, int, int>("ReceiveMoveInfo", (user, roll_1, roll_2) =>
             {
                 this.Invoke((Action)(() =>
                 {
                     gameboard.makeMove(user, roll_1 + roll_2);
 
-                    var newMessage = $"{user}: ruszył się o {roll_1+roll_2} pola \n";
+                    var newMessage = $"{user}: ruszył się o {roll_1+roll_2}\n";
                     actionBox.AppendText(newMessage);
                     
                     if(user.Equals(gameboard.getUsername()))
                     {
                         buttonMove.Enabled = false;
-                        buttonBuy.Enabled = buttonEnd.Enabled = true;
+                        Field f = gameboard.getField(gameboard.getPlayerByUsername(user).getCurrentField());
+                        string CheckOwner = f.getOwner();
+                        if (CheckOwner.Equals("none")) buttonBuy.Enabled = true;
+                        else if (!CheckOwner.Equals(user)) payTax(user, f.getOwner(), f.getTaxVal());
+                        buttonEnd.Enabled = true;
                     }
                 }));
             });
@@ -129,15 +154,46 @@ namespace MonopolyTempGUI
                 }));
             });
 
+            connection.On<string, string, int>("ReceiveTaxInfo", (user, owner, price) =>
+            {
+                this.Invoke((Action)(() =>
+                {
+                    actionBox.AppendText("Uzytkownik " + user + " placi " + price + " uzytkownikowi " + owner + "\n");
+                    gameboard.pay(user, owner, price);
+                }));
+            });
+
             connection.On<string>("ReceiveEndTurn", (user) =>
             {
                 this.Invoke((Action)(() =>
                 {
+                    actionBox.AppendText("Uzytkownik " + user + " konczy ture\n");
                     gameboard.nextTurn(user);
-                    if(gameboard.getActivePlayer().Equals(user))
+                    if(gameboard.getActivePlayer().Equals(gameboard.getUsername()))
                     {
                         buttonMove.Enabled = true;
                     }
+                    else buttonBuy.Enabled = buttonEnd.Enabled = false;
+
+                    actionBox.AppendText("Tura gracza " + gameboard.getActivePlayer() + " \n");
+                }));
+            });
+
+            connection.On<string>("RoomExistsErr", (roomname) =>
+            {
+                this.Invoke((Action)(() =>
+                {
+                    //display error
+                    textBoxRoom.Text = "Room already exists!";
+                }));
+            });
+
+            connection.On<string>("RoomNotExistsErr", (roomname) =>
+            {
+                this.Invoke((Action)(() =>
+                {
+                    //display error
+                    textBoxRoom.Text = "Room does not exist!";
                 }));
             });
 
@@ -157,7 +213,7 @@ namespace MonopolyTempGUI
                     {
                         gameboard.setUsername(username);
                         textBox1.Text = username;
-                        textBox1.Visible = textBoxRoom.Visible = buttonJoin.Visible = true;
+                        textBox1.Visible = textBoxRoom.Visible = buttonJoin.Visible = buttonCreate.Visible = true;
                         labelPassword.Visible = labelLogin.Visible = textBoxLogin.Visible = textBoxPassword.Visible = buttonRegister.Visible = buttonLogin.Visible = false;
                     }
                     //else display error
@@ -169,21 +225,22 @@ namespace MonopolyTempGUI
         {
             string username;
             int walletBalance;
-            string state;
+            int state;              // NOT_ACTIVE = 0, FREE = 1, PRISON = 2 
+            bool debt;
             int currentField;
 
             public Player()
             {
-                username = ""; walletBalance = 0; state = ""; currentField = 0;
+                username = ""; walletBalance = 0; state = 0; currentField = 0; debt = false;
             }
 
-            public Player(string username, int walletBalance)
+            public Player(string username, int walletBalance, int state)
             {
-                this.username = username; this.walletBalance = walletBalance;
-                state = "rest"; currentField = 0;
+                this.username = username; this.walletBalance = walletBalance; this.state = state; 
+                currentField = 0; debt = false;
             }
 
-            public void setPlayerstate(string state)
+            public void setPlayerstate(int state)
             {
                 this.state = state;
             }
@@ -213,7 +270,7 @@ namespace MonopolyTempGUI
                 return username;
             }
 
-            public string CheckState()
+            public int CheckState()
             {
                 return state;
             }
@@ -246,13 +303,13 @@ namespace MonopolyTempGUI
             int tax;
             int position;
             string owner;
-            string special;
+            int special; // DEFAULT = 0, START = 1, PRISON = 2, BANK = 3, TAX = 4
             List<Player> presentPlayers;
 
             public Field(int position, int price, int tax)
             {
                 this.position = position; this.price = price; this.tax = tax;
-                owner = "none"; special = "none"; presentPlayers = new List<Player>();
+                owner = "none"; special = 0; presentPlayers = new List<Player>();
             }
 
             public int getTaxVal()
@@ -275,7 +332,7 @@ namespace MonopolyTempGUI
                 return owner;
             }
 
-            public string CheckSpecial()
+            public int CheckSpecial()
             {
                 return special;
             }
@@ -320,6 +377,13 @@ namespace MonopolyTempGUI
                 activePlayer = "";
                 fields = new List<Field>();
                 players = new List<Player>();
+                Player t;
+                for(int i = 0; i<4; i++)
+                {
+                    t = new Player("", i, 0);
+                    players.Add(t);
+                }
+
                 Field temp;
                 for (int i = 0; i < 28; i++)
                 {
@@ -338,16 +402,21 @@ namespace MonopolyTempGUI
                         temp = new Field(i, 200, 20);
                         fields.Add(temp);
                     }
-                    else
+                    else if (i > 14 && i < 21)
                     {
                         temp = new Field(i, 300, 30);
                         fields.Add(temp);
                     }
+                    else
+                    {
+                        temp = new Field(i, 400, 40);
+                        fields.Add(temp);
+                    }
                 }
             }
-            public void joinPlayer(Player newPlayer)
+            public void joinPlayer(Player newPlayer, int id)
             {
-                players.Add(newPlayer);
+                players[id] = newPlayer;
                 if (players.Count() == 1) activePlayer = newPlayer.getUsername();
             }
             public void removePlayer(Player newPlayer)
@@ -366,12 +435,14 @@ namespace MonopolyTempGUI
             public void nextTurn(string username)
             {
                 int turnId = 0;
-                for (int i = 0; i < players.Count(); i++)
+                for (int i = 0; i < 4; i++)
                 {
                     if (players[i].getUsername().Equals(username))
                     {
-                        if (players.Count() > i + 1) turnId = i + 1;
-                        break;
+                        if (i+1<4)
+                        {
+                            if(players[i+1].CheckState() != 0) turnId = i + 1;
+                        }
                     }
                 }
                 activePlayer = players[turnId].getUsername();
@@ -389,6 +460,11 @@ namespace MonopolyTempGUI
                     }
                 }
                 return found;
+            }
+
+            public List<Player> getPlayers()
+            {
+                return players;
             }
 
             public int startingBalance()
@@ -459,9 +535,34 @@ namespace MonopolyTempGUI
                 return activePlayer;
             }
 
+            public void setActivePlayer(string username)
+            {
+                activePlayer = username;
+            }
+
             public int getBuyId()
             {
                 return getPlayerByUsername(my_username).getPos();
+            }
+
+            public Field getField(int id)
+            {
+                return fields[id];
+            }
+
+            public void pay(string user, string owner, int price)
+            {
+                foreach (Player p in players)
+                {
+                    if (p.getUsername().Equals(user))
+                    {
+                        p.pay(price);
+                    }
+                    else if(p.getUsername().Equals(owner))
+                    {
+                        p.addcash(price);
+                    }
+                }
             }
         }
 
@@ -504,6 +605,16 @@ namespace MonopolyTempGUI
         {
             await connection.InvokeAsync("SendMessage", gameboard.getRoomname(), gameboard.getUsername(), textBoxMessage.Text);
             textBoxMessage.Clear();
+        }
+
+        private async void buttonCreate_Click(object sender, EventArgs e)
+        {
+            await connection.InvokeAsync("CreateRoom", textBoxRoom.Text, gameboard.getUsername());
+        }
+
+        private async void payTax(string my_name, string owner, int tax_val)
+        {
+            await connection.InvokeAsync("PayTax", gameboard.getRoomname(), my_name, owner, tax_val);
         }
     }
 }

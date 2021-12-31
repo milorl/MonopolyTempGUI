@@ -57,6 +57,7 @@
             this.labelRoom = new System.Windows.Forms.Label();
             this.buttonSend = new System.Windows.Forms.Button();
             this.textBoxMessage = new System.Windows.Forms.TextBox();
+            this.buttonCreate = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -150,7 +151,7 @@
             // actionBox
             // 
             this.actionBox.Enabled = false;
-            this.actionBox.Location = new System.Drawing.Point(1080, 212);
+            this.actionBox.Location = new System.Drawing.Point(312, 221);
             this.actionBox.Name = "actionBox";
             this.actionBox.Size = new System.Drawing.Size(488, 321);
             this.actionBox.TabIndex = 10;
@@ -160,7 +161,7 @@
             // walletBox
             // 
             this.walletBox.Enabled = false;
-            this.walletBox.Location = new System.Drawing.Point(1080, 92);
+            this.walletBox.Location = new System.Drawing.Point(312, 101);
             this.walletBox.Name = "walletBox";
             this.walletBox.Size = new System.Drawing.Size(488, 103);
             this.walletBox.TabIndex = 11;
@@ -170,7 +171,7 @@
             // chatBox
             // 
             this.chatBox.Enabled = false;
-            this.chatBox.Location = new System.Drawing.Point(785, 273);
+            this.chatBox.Location = new System.Drawing.Point(17, 282);
             this.chatBox.Name = "chatBox";
             this.chatBox.Size = new System.Drawing.Size(289, 170);
             this.chatBox.TabIndex = 12;
@@ -180,7 +181,7 @@
             // buttonMove
             // 
             this.buttonMove.Enabled = false;
-            this.buttonMove.Location = new System.Drawing.Point(1220, 539);
+            this.buttonMove.Location = new System.Drawing.Point(452, 548);
             this.buttonMove.Name = "buttonMove";
             this.buttonMove.Size = new System.Drawing.Size(75, 23);
             this.buttonMove.TabIndex = 13;
@@ -192,7 +193,7 @@
             // positionBox
             // 
             this.positionBox.Enabled = false;
-            this.positionBox.Location = new System.Drawing.Point(1574, 270);
+            this.positionBox.Location = new System.Drawing.Point(806, 279);
             this.positionBox.Name = "positionBox";
             this.positionBox.Size = new System.Drawing.Size(289, 170);
             this.positionBox.TabIndex = 14;
@@ -202,7 +203,7 @@
             // buttonBuy
             // 
             this.buttonBuy.Enabled = false;
-            this.buttonBuy.Location = new System.Drawing.Point(1301, 539);
+            this.buttonBuy.Location = new System.Drawing.Point(533, 548);
             this.buttonBuy.Name = "buttonBuy";
             this.buttonBuy.Size = new System.Drawing.Size(75, 23);
             this.buttonBuy.TabIndex = 15;
@@ -214,7 +215,7 @@
             // buttonSell
             // 
             this.buttonSell.Enabled = false;
-            this.buttonSell.Location = new System.Drawing.Point(1382, 539);
+            this.buttonSell.Location = new System.Drawing.Point(614, 548);
             this.buttonSell.Name = "buttonSell";
             this.buttonSell.Size = new System.Drawing.Size(75, 23);
             this.buttonSell.TabIndex = 16;
@@ -237,7 +238,7 @@
             // 
             this.labelWallet.AutoSize = true;
             this.labelWallet.Enabled = false;
-            this.labelWallet.Location = new System.Drawing.Point(1077, 76);
+            this.labelWallet.Location = new System.Drawing.Point(309, 85);
             this.labelWallet.Name = "labelWallet";
             this.labelWallet.Size = new System.Drawing.Size(42, 13);
             this.labelWallet.TabIndex = 18;
@@ -248,7 +249,7 @@
             // 
             this.labelLog.AutoSize = true;
             this.labelLog.Enabled = false;
-            this.labelLog.Location = new System.Drawing.Point(1077, 198);
+            this.labelLog.Location = new System.Drawing.Point(309, 207);
             this.labelLog.Name = "labelLog";
             this.labelLog.Size = new System.Drawing.Size(57, 13);
             this.labelLog.TabIndex = 19;
@@ -259,7 +260,7 @@
             // 
             this.labelPositions.AutoSize = true;
             this.labelPositions.Enabled = false;
-            this.labelPositions.Location = new System.Drawing.Point(1571, 254);
+            this.labelPositions.Location = new System.Drawing.Point(803, 263);
             this.labelPositions.Name = "labelPositions";
             this.labelPositions.Size = new System.Drawing.Size(51, 13);
             this.labelPositions.TabIndex = 20;
@@ -269,7 +270,7 @@
             // buttonEnd
             // 
             this.buttonEnd.Enabled = false;
-            this.buttonEnd.Location = new System.Drawing.Point(1301, 568);
+            this.buttonEnd.Location = new System.Drawing.Point(533, 577);
             this.buttonEnd.Name = "buttonEnd";
             this.buttonEnd.Size = new System.Drawing.Size(75, 23);
             this.buttonEnd.TabIndex = 21;
@@ -281,7 +282,7 @@
             // buttonResign
             // 
             this.buttonResign.Enabled = false;
-            this.buttonResign.Location = new System.Drawing.Point(1788, 12);
+            this.buttonResign.Location = new System.Drawing.Point(1020, 21);
             this.buttonResign.Name = "buttonResign";
             this.buttonResign.Size = new System.Drawing.Size(75, 23);
             this.buttonResign.TabIndex = 22;
@@ -292,7 +293,7 @@
             // sellBox
             // 
             this.sellBox.Enabled = false;
-            this.sellBox.Location = new System.Drawing.Point(1463, 541);
+            this.sellBox.Location = new System.Drawing.Point(695, 550);
             this.sellBox.Name = "sellBox";
             this.sellBox.Size = new System.Drawing.Size(100, 20);
             this.sellBox.TabIndex = 23;
@@ -308,7 +309,7 @@
             // 
             // buttonJoin
             // 
-            this.buttonJoin.Location = new System.Drawing.Point(506, 296);
+            this.buttonJoin.Location = new System.Drawing.Point(553, 296);
             this.buttonJoin.Name = "buttonJoin";
             this.buttonJoin.Size = new System.Drawing.Size(75, 23);
             this.buttonJoin.TabIndex = 25;
@@ -329,7 +330,7 @@
             // 
             // buttonSend
             // 
-            this.buttonSend.Location = new System.Drawing.Point(894, 475);
+            this.buttonSend.Location = new System.Drawing.Point(126, 484);
             this.buttonSend.Name = "buttonSend";
             this.buttonSend.Size = new System.Drawing.Size(75, 23);
             this.buttonSend.TabIndex = 27;
@@ -340,17 +341,29 @@
             // 
             // textBoxMessage
             // 
-            this.textBoxMessage.Location = new System.Drawing.Point(785, 449);
+            this.textBoxMessage.Location = new System.Drawing.Point(17, 458);
             this.textBoxMessage.Name = "textBoxMessage";
             this.textBoxMessage.Size = new System.Drawing.Size(289, 20);
             this.textBoxMessage.TabIndex = 28;
             this.textBoxMessage.Visible = false;
             // 
+            // buttonCreate
+            // 
+            this.buttonCreate.Location = new System.Drawing.Point(472, 296);
+            this.buttonCreate.Name = "buttonCreate";
+            this.buttonCreate.Size = new System.Drawing.Size(75, 23);
+            this.buttonCreate.TabIndex = 29;
+            this.buttonCreate.Text = "Create";
+            this.buttonCreate.UseVisualStyleBackColor = true;
+            this.buttonCreate.Visible = false;
+            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1905, 714);
+            this.ClientSize = new System.Drawing.Size(1159, 714);
+            this.Controls.Add(this.buttonCreate);
             this.Controls.Add(this.textBoxMessage);
             this.Controls.Add(this.buttonSend);
             this.Controls.Add(this.labelRoom);
@@ -418,6 +431,7 @@
         private System.Windows.Forms.Label labelRoom;
         private System.Windows.Forms.Button buttonSend;
         private System.Windows.Forms.TextBox textBoxMessage;
+        private System.Windows.Forms.Button buttonCreate;
     }
 }
 

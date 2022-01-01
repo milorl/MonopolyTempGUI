@@ -55,8 +55,8 @@ namespace MonopolyTempGUI
                         gameboard.joinPlayer(newPlayer, playerid);
                         gameboard.setRoomname(roomname);
 
-                        labelRoom.Visible = textBoxRoom.Visible = buttonJoin.Visible = false;
-                        textBox2.Visible = textBoxMessage.Visible = chatBox.Visible = actionBox.Visible = walletBox.Visible = positionBox.Visible = sellBox.Visible = true;
+                        labelRoom.Visible = textBoxRoom.Visible = buttonJoin.Visible = buttonCreate.Visible = false;
+                        textBox2.Visible = textBoxMessage.Visible = chatBox.Visible = actionBox.Visible = walletBox.Visible = positionBox.Visible = sellBox1.Visible = sellBox2.Visible = true;
                         labelChat.Visible = labelLog.Visible = labelWallet.Visible = labelPositions.Visible = true;
                         buttonSend.Visible = buttonMove.Visible = buttonEnd.Visible = buttonSell.Visible = buttonBuy.Visible = true;
 
@@ -65,7 +65,7 @@ namespace MonopolyTempGUI
                         if (playerid == 0)
                         {
                             gameboard.setActivePlayer(user);
-                            buttonMove.Enabled = true;
+                            buttonMove.Enabled = sellBox1.Enabled = sellBox2.Enabled = buttonSell.Enabled = true;
                         }
                     }
                     else
@@ -124,6 +124,23 @@ namespace MonopolyTempGUI
 
                     var newMessage = $"{user}: kupił pole nr {field} \n";
                     actionBox.AppendText(newMessage);
+
+                    updateWallets();
+                }));
+            });
+
+            connection.On<string, int, int>("ReceivePurchaseInfo", (user, field, price) =>
+            {
+                this.Invoke((Action)(() =>
+                {
+                    gameboard.buyField(user, field, price);
+
+                    var newMessage = $"{user}: kupił pole nr {field} \n";
+                    actionBox.AppendText(newMessage);
+
+                    updateWallets();
+
+                    buttonCreate.Visible = false;
                 }));
             });
 
@@ -138,19 +155,13 @@ namespace MonopolyTempGUI
                 }));
             });
 
-            connection.On<int, int>("ReceiveAuctionInfo", (field, price) =>
+            connection.On<int>("ReceiveAuctionInfo", (field) =>
             {
                 this.Invoke((Action)(() =>
                 {
-
-                }));
-            });
-
-            connection.On<string, int, int>("ReceiveWinner", (user, field, price) =>
-            {
-                this.Invoke((Action)(() =>
-                {
-
+                    var newMessage = $"Pole: {field} wystawione na sprzedaz \n";
+                    actionBox.AppendText(newMessage);
+                    auctionBox.Visible = buttonOffer.Visible = buttonAbort.Visible = true;
                 }));
             });
 
@@ -160,6 +171,8 @@ namespace MonopolyTempGUI
                 {
                     actionBox.AppendText("Uzytkownik " + user + " placi " + price + " uzytkownikowi " + owner + "\n");
                     gameboard.pay(user, owner, price);
+
+                    updateWallets();
                 }));
             });
 
@@ -173,9 +186,11 @@ namespace MonopolyTempGUI
                     {
                         buttonMove.Enabled = true;
                     }
-                    else buttonBuy.Enabled = buttonEnd.Enabled = false;
+                    else buttonBuy.Enabled = buttonEnd.Enabled = sellBox1.Enabled = sellBox2.Enabled = buttonSell.Enabled = false;
 
                     actionBox.AppendText("Tura gracza " + gameboard.getActivePlayer() + " \n");
+
+                    updateWallets();
                 }));
             });
 
@@ -202,6 +217,19 @@ namespace MonopolyTempGUI
                 this.Invoke((Action)(() =>
                 {
                     gameboard.resign(user);
+                }));
+            });
+
+            connection.On<string, int, int>("ReceiveWinner", (user, price, id) =>
+            {
+                this.Invoke((Action)(() =>
+                {
+                    if(gameboard.getUsername().Equals(user))
+                    {
+                        System.Windows.Forms.MessageBox.Show("Wygrales licytacje pola!");
+                    }
+
+                    gameboard.buyField(user, id, price);
                 }));
             });
 
@@ -484,6 +512,27 @@ namespace MonopolyTempGUI
             public void buyField(string username, int id)
             {
                 fields[id].setOwner(username);
+                foreach(Player p in players)
+                {
+                    if(p.getUsername().Equals(username))
+                    {
+                        p.pay(fields[id].getPrice());
+                        break;
+                    }
+                }
+            }
+
+            public void buyField(string username, int id, int price)
+            {
+                fields[id].setOwner(username);
+                foreach (Player p in players)
+                {
+                    if (p.getUsername().Equals(username))
+                    {
+                        p.pay(price);
+                        break;
+                    }
+                }
             }
 
             public void setBalance(string username, int balance)
@@ -507,7 +556,12 @@ namespace MonopolyTempGUI
 
             public int countPlayers()
             {
-                return players.Count();
+                int result = 0;
+                foreach(Player p in players)
+                {
+                    if (p.CheckState() != 0) result++;  
+                }
+                return result;
             }
 
             public void setUsername(string username)
@@ -592,13 +646,22 @@ namespace MonopolyTempGUI
 
         private async void buttonBuy_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("SendPurchaseInfo", gameboard.getRoomname(), gameboard.getUsername(), gameboard.getBuyId());
+            await connection.InvokeAsync("SendPurchaseInfo", gameboard.getRoomname(), gameboard.getUsername(), gameboard.getBuyId(), 0);
         }
 
         private async void buttonEnd_Click(object sender, EventArgs e)
         {
             await connection.InvokeAsync("SendEndTurn", gameboard.getRoomname(), gameboard.getUsername());
             buttonBuy.Enabled = buttonEnd.Enabled = false;
+        }
+
+        private void updateWallets()
+        {
+            walletBox.Clear();
+            foreach (Player p in gameboard.getPlayers())
+            {
+                if(!p.getUsername().Equals("")) walletBox.AppendText(p.getUsername() + ": " + p.getBalance() + "$\n");
+            }
         }
 
         private async void buttonSend_Click(object sender, EventArgs e)
@@ -615,6 +678,30 @@ namespace MonopolyTempGUI
         private async void payTax(string my_name, string owner, int tax_val)
         {
             await connection.InvokeAsync("PayTax", gameboard.getRoomname(), my_name, owner, tax_val);
+        }
+
+        private async void buyField(string username, int field_id, int price)
+        {
+            await connection.InvokeAsync("SendPurchaseInfo", gameboard.getRoomname(), username, field_id, price);
+        }
+
+        private async void buttonSell_Click(object sender, EventArgs e)
+        {
+            int field_id = Convert.ToInt32(sellBox1.Text);
+            if (gameboard.getField(field_id).getOwner().Equals(gameboard.getUsername())) await connection.InvokeAsync("StartAuction", gameboard.getRoomname(), Convert.ToInt32(sellBox1.Text), Convert.ToInt32(sellBox2.Text), gameboard.countPlayers()-1);
+            else System.Windows.Forms.MessageBox.Show("Nie jestes wlascicielem tego pola!");
+        }
+
+        private async void buttonOffer_Click(object sender, EventArgs e)
+        {
+            await connection.InvokeAsync("SendOffer", gameboard.getRoomname(), gameboard.getUsername(), Convert.ToInt32(auctionBox.Text));
+            auctionBox.Visible = buttonOffer.Visible = buttonAbort.Visible = false;
+        }
+
+        private async void buttonAbort_Click(object sender, EventArgs e)
+        {
+            await connection.InvokeAsync("SendAbort", gameboard.getRoomname(), gameboard.getUsername());
+            auctionBox.Visible = buttonOffer.Visible = buttonAbort.Visible = false;
         }
     }
 }

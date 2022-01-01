@@ -51,13 +51,17 @@
             this.labelPositions = new System.Windows.Forms.Label();
             this.buttonEnd = new System.Windows.Forms.Button();
             this.buttonResign = new System.Windows.Forms.Button();
-            this.sellBox = new System.Windows.Forms.TextBox();
+            this.sellBox1 = new System.Windows.Forms.TextBox();
             this.textBoxRoom = new System.Windows.Forms.TextBox();
             this.buttonJoin = new System.Windows.Forms.Button();
             this.labelRoom = new System.Windows.Forms.Label();
             this.buttonSend = new System.Windows.Forms.Button();
             this.textBoxMessage = new System.Windows.Forms.TextBox();
             this.buttonCreate = new System.Windows.Forms.Button();
+            this.sellBox2 = new System.Windows.Forms.TextBox();
+            this.buttonOffer = new System.Windows.Forms.Button();
+            this.auctionBox = new System.Windows.Forms.TextBox();
+            this.buttonAbort = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -150,9 +154,9 @@
             // 
             // actionBox
             // 
-            this.actionBox.Enabled = false;
             this.actionBox.Location = new System.Drawing.Point(312, 221);
             this.actionBox.Name = "actionBox";
+            this.actionBox.ReadOnly = true;
             this.actionBox.Size = new System.Drawing.Size(488, 321);
             this.actionBox.TabIndex = 10;
             this.actionBox.Text = "";
@@ -160,9 +164,9 @@
             // 
             // walletBox
             // 
-            this.walletBox.Enabled = false;
             this.walletBox.Location = new System.Drawing.Point(312, 101);
             this.walletBox.Name = "walletBox";
+            this.walletBox.ReadOnly = true;
             this.walletBox.Size = new System.Drawing.Size(488, 103);
             this.walletBox.TabIndex = 11;
             this.walletBox.Text = "";
@@ -170,9 +174,9 @@
             // 
             // chatBox
             // 
-            this.chatBox.Enabled = false;
             this.chatBox.Location = new System.Drawing.Point(17, 282);
             this.chatBox.Name = "chatBox";
+            this.chatBox.ReadOnly = true;
             this.chatBox.Size = new System.Drawing.Size(289, 170);
             this.chatBox.TabIndex = 12;
             this.chatBox.Text = "";
@@ -192,9 +196,9 @@
             // 
             // positionBox
             // 
-            this.positionBox.Enabled = false;
             this.positionBox.Location = new System.Drawing.Point(806, 279);
             this.positionBox.Name = "positionBox";
+            this.positionBox.ReadOnly = true;
             this.positionBox.Size = new System.Drawing.Size(289, 170);
             this.positionBox.TabIndex = 14;
             this.positionBox.Text = "";
@@ -222,6 +226,7 @@
             this.buttonSell.Text = "Sell";
             this.buttonSell.UseVisualStyleBackColor = true;
             this.buttonSell.Visible = false;
+            this.buttonSell.Click += new System.EventHandler(this.buttonSell_Click);
             // 
             // labelChat
             // 
@@ -290,14 +295,14 @@
             this.buttonResign.UseVisualStyleBackColor = true;
             this.buttonResign.Visible = false;
             // 
-            // sellBox
+            // sellBox1
             // 
-            this.sellBox.Enabled = false;
-            this.sellBox.Location = new System.Drawing.Point(695, 550);
-            this.sellBox.Name = "sellBox";
-            this.sellBox.Size = new System.Drawing.Size(100, 20);
-            this.sellBox.TabIndex = 23;
-            this.sellBox.Visible = false;
+            this.sellBox1.Enabled = false;
+            this.sellBox1.Location = new System.Drawing.Point(695, 550);
+            this.sellBox1.Name = "sellBox1";
+            this.sellBox1.Size = new System.Drawing.Size(100, 20);
+            this.sellBox1.TabIndex = 23;
+            this.sellBox1.Visible = false;
             // 
             // textBoxRoom
             // 
@@ -358,18 +363,61 @@
             this.buttonCreate.Visible = false;
             this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
             // 
+            // sellBox2
+            // 
+            this.sellBox2.Enabled = false;
+            this.sellBox2.Location = new System.Drawing.Point(801, 550);
+            this.sellBox2.Name = "sellBox2";
+            this.sellBox2.Size = new System.Drawing.Size(100, 20);
+            this.sellBox2.TabIndex = 30;
+            this.sellBox2.Visible = false;
+            // 
+            // buttonOffer
+            // 
+            this.buttonOffer.Location = new System.Drawing.Point(852, 141);
+            this.buttonOffer.Name = "buttonOffer";
+            this.buttonOffer.Size = new System.Drawing.Size(75, 23);
+            this.buttonOffer.TabIndex = 31;
+            this.buttonOffer.Text = "Offer";
+            this.buttonOffer.UseVisualStyleBackColor = true;
+            this.buttonOffer.Visible = false;
+            this.buttonOffer.Click += new System.EventHandler(this.buttonOffer_Click);
+            // 
+            // auctionBox
+            // 
+            this.auctionBox.Location = new System.Drawing.Point(933, 156);
+            this.auctionBox.Name = "auctionBox";
+            this.auctionBox.Size = new System.Drawing.Size(100, 20);
+            this.auctionBox.TabIndex = 32;
+            this.auctionBox.Visible = false;
+            // 
+            // buttonAbort
+            // 
+            this.buttonAbort.Location = new System.Drawing.Point(852, 170);
+            this.buttonAbort.Name = "buttonAbort";
+            this.buttonAbort.Size = new System.Drawing.Size(75, 23);
+            this.buttonAbort.TabIndex = 33;
+            this.buttonAbort.Text = "Abort";
+            this.buttonAbort.UseVisualStyleBackColor = true;
+            this.buttonAbort.Visible = false;
+            this.buttonAbort.Click += new System.EventHandler(this.buttonAbort_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1159, 714);
+            this.Controls.Add(this.buttonAbort);
+            this.Controls.Add(this.auctionBox);
+            this.Controls.Add(this.buttonOffer);
+            this.Controls.Add(this.sellBox2);
             this.Controls.Add(this.buttonCreate);
             this.Controls.Add(this.textBoxMessage);
             this.Controls.Add(this.buttonSend);
             this.Controls.Add(this.labelRoom);
             this.Controls.Add(this.buttonJoin);
             this.Controls.Add(this.textBoxRoom);
-            this.Controls.Add(this.sellBox);
+            this.Controls.Add(this.sellBox1);
             this.Controls.Add(this.buttonResign);
             this.Controls.Add(this.buttonEnd);
             this.Controls.Add(this.labelPositions);
@@ -425,13 +473,17 @@
         private System.Windows.Forms.Label labelPositions;
         private System.Windows.Forms.Button buttonEnd;
         private System.Windows.Forms.Button buttonResign;
-        private System.Windows.Forms.TextBox sellBox;
+        private System.Windows.Forms.TextBox sellBox1;
         private System.Windows.Forms.TextBox textBoxRoom;
         private System.Windows.Forms.Button buttonJoin;
         private System.Windows.Forms.Label labelRoom;
         private System.Windows.Forms.Button buttonSend;
         private System.Windows.Forms.TextBox textBoxMessage;
         private System.Windows.Forms.Button buttonCreate;
+        private System.Windows.Forms.TextBox sellBox2;
+        private System.Windows.Forms.Button buttonOffer;
+        private System.Windows.Forms.TextBox auctionBox;
+        private System.Windows.Forms.Button buttonAbort;
     }
 }
 
